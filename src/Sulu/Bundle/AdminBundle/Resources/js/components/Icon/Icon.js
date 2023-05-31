@@ -11,6 +11,7 @@ import type {ElementRef} from 'react';
 type Props = {
     className?: string,
     iconRef?: (ref: ?ElementRef<'span'>) => void,
+    label?: string,
     name: string,
     onClick?: () => void,
     style?: Object,
@@ -46,7 +47,7 @@ export default class Icon extends React.PureComponent<Props> {
     };
 
     render() {
-        const {className, name, onClick, iconRef, style} = this.props;
+        const {className, label, name, onClick, iconRef, style} = this.props;
         let fontClass = '';
 
         if (!name || name.length <= 0) {
@@ -86,12 +87,15 @@ export default class Icon extends React.PureComponent<Props> {
                 onClick: this.handleClick,
                 onKeyPress: this.handleKeypress,
                 role: 'button',
+                'aria-label': label ? label : name,
                 tabIndex: 0,
             }
-            : {};
+            : {
+                'aria-hidden': true,
+            };
 
         return (
-            <span aria-label={name} className={iconClass} ref={iconRef} style={style} {...onClickProperties} />
+            <span className={iconClass} ref={iconRef} style={style} {...onClickProperties} />
         );
     }
 }
